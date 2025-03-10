@@ -1,0 +1,38 @@
+# Nama : Abdul Haris Muhasibi
+# NIM  : 235150307111047
+
+import sympy as sp
+
+# Definisi simbol
+t = sp.symbols('t')  # Variabel waktu
+R, L, Ke, Kt, J, B = sp.symbols('R L Ke Kt J B', real=True, positive=True)  # Parameter motor
+V = sp.Function('V')(t)  # Tegangan input sebagai fungsi waktu
+i = sp.Function('i')(t)  # Arus sebagai fungsi waktu
+omega = sp.Function('omega')(t)  # Kecepatan sudut sebagai fungsi waktu
+
+# 1. Model Matematika Motor DC
+# Persamaan Listrik: V = R*i + L*di/dt + Ke*omega
+elec_eq = sp.Eq(V, R*i + L*sp.diff(i, t) + Ke*omega)
+
+# Persamaan Mekanik: J*dω/dt + B*ω = Kt*i
+mech_eq = sp.Eq(J*sp.diff(omega, t) + B*omega, Kt*i)
+
+# 2. Transformasi Laplace pada Motor DC
+# Definisi simbol Laplace
+s = sp.symbols('s')  # Variabel Laplace
+V_s = sp.Function('V')(s)  # Tegangan dalam domain Laplace
+I_s = sp.Function('I')(s)  # Arus dalam domain Laplace
+Omega_s = sp.Function('Omega')(s)  # Kecepatan sudut dalam domain Laplace
+
+# Transformasi Laplace dari persamaan listrik
+elec_laplace = sp.Eq(V_s, R*I_s + L*s*I_s + Ke*Omega_s)
+
+# Transformasi Laplace dari persamaan mekanik
+mech_laplace = sp.Eq(J*s*Omega_s + B*Omega_s, Kt*I_s)
+
+# Menampilkan hasil transformasi Laplace
+print("2. Transformasi Laplace pada Motor DC:")
+print("Persamaan Listrik dalam Domain Laplace:")
+sp.pretty_print(elec_laplace)
+print("\nPersamaan Mekanik dalam Domain Laplace:")
+sp.pretty_print(mech_laplace)
