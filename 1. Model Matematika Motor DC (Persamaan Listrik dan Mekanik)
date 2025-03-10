@@ -1,0 +1,25 @@
+# Nama : Abdul Haris Muhasibi
+# NIM  : 235150307111047
+
+import sympy as sp
+
+# Definisi simbol
+t = sp.symbols('t')  # Variabel waktu
+R, L, Ke, Kt, J, B = sp.symbols('R L Ke Kt J B', real=True, positive=True)  # Parameter motor
+V = sp.Function('V')(t)  # Tegangan input sebagai fungsi waktu
+i = sp.Function('i')(t)  # Arus sebagai fungsi waktu
+omega = sp.Function('omega')(t)  # Kecepatan sudut sebagai fungsi waktu
+
+# 1. Model Matematika Motor DC
+# Persamaan Listrik: V = R*i + L*di/dt + Ke*omega
+elec_eq = sp.Eq(V, R*i + L*sp.diff(i, t) + Ke*omega)
+
+# Persamaan Mekanik: J*dω/dt + B*ω = Kt*i
+mech_eq = sp.Eq(J*sp.diff(omega, t) + B*omega, Kt*i)
+
+# Menampilkan persamaan
+print("1. Model Matematika Motor DC:")
+print("Persamaan Listrik:")
+sp.pretty_print(elec_eq)
+print("\nPersamaan Mekanik:")
+sp.pretty_print(mech_eq)
